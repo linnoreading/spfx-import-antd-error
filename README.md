@@ -1,73 +1,33 @@
 # spfx-import-antd-error
 
-## Summary
+### summary
+2021.7.29创建的spfx项目，import antd报错：TS1005: ';' 
+expected.
 
-Short summary on functionality and used technologies.
+此项目仅用于antd提交错误 [antd issue](https://github.com/ant-design/ant-design/issues/31573)，当前项目typescript版本还是3.7.7,未更新。
 
-[picture of the solution in action, if possible]
+### 原因
+spfx v1.12.1默认typescript版本为3.7.7
 
-## Used SharePoint Framework Version
+### 解决方案
+spfx 升级typescript 到v4+
 
-![version](https://img.shields.io/npm/v/@microsoft/sp-component-base/latest?color=green)
+[Use Different Versions of TypeScript in SPFx projects](https://spblog.net/post/2021/07/28/spfx-fast-serve-new-features-native-serve-and-hot-module-replacement-aka-hmr)
 
-## Applies to
+1. re-install rush-stack-compiler 4+
+```powershell
+npm uninstall @microsoft/rush-stack-compiler-3.7 --save-dev
+npm install @microsoft/rush-stack-compiler-4.2 --save-dev 
+```
+2. Then update tsconfig.json so that it extends the 4.2 version instead of 3.7
 
-- [SharePoint Framework](https://aka.ms/spfx)
-- [Microsoft 365 tenant](https://docs.microsoft.com/en-us/sharepoint/dev/spfx/set-up-your-developer-tenant)
+```js
+"extends": "./node_modules/@microsoft/rush-stack-compiler-4.2/includes/tsconfig-web.json",
+```
+3. TypeScript 4+ doesn't support tslint (tslint is deprecated). Thus you should disable the tslint task in your gulpfile.js:
+```js
+build.tslintCmd.enabled = false;
+```
+Otherwise, the build will fail. As an alternative to tslint, you can use eslint.
 
-> Get your own free development tenant by subscribing to [Microsoft 365 developer program](http://aka.ms/o365devprogram)
-
-## Prerequisites
-
-> Any special pre-requisites?
-
-## Solution
-
-Solution|Author(s)
---------|---------
-folder name | Author details (name, company, twitter alias with link)
-
-## Version history
-
-Version|Date|Comments
--------|----|--------
-1.1|March 10, 2021|Update comment
-1.0|January 29, 2021|Initial release
-
-## Disclaimer
-
-**THIS CODE IS PROVIDED *AS IS* WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING ANY IMPLIED WARRANTIES OF FITNESS FOR A PARTICULAR PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.**
-
----
-
-## Minimal Path to Awesome
-
-- Clone this repository
-- Ensure that you are at the solution folder
-- in the command-line run:
-  - **npm install**
-  - **gulp serve**
-
-> Include any additional steps as needed.
-
-## Features
-
-Description of the extension that expands upon high-level summary above.
-
-This extension illustrates the following concepts:
-
-- topic 1
-- topic 2
-- topic 3
-
-> Notice that better pictures and documentation will increase the sample usage and the value you are providing for others. Thanks for your submissions advance.
-
-> Share your web part with others through Microsoft 365 Patterns and Practices program to get visibility and exposure. More details on the community, open-source projects and other activities from http://aka.ms/m365pnp.
-
-## References
-
-- [Getting started with SharePoint Framework](https://docs.microsoft.com/en-us/sharepoint/dev/spfx/set-up-your-developer-tenant)
-- [Building for Microsoft teams](https://docs.microsoft.com/en-us/sharepoint/dev/spfx/build-for-teams-overview)
-- [Use Microsoft Graph in your solution](https://docs.microsoft.com/en-us/sharepoint/dev/spfx/web-parts/get-started/using-microsoft-graph-apis)
-- [Publish SharePoint Framework applications to the Marketplace](https://docs.microsoft.com/en-us/sharepoint/dev/spfx/publish-to-marketplace-overview)
-- [Microsoft 365 Patterns and Practices](https://aka.ms/m365pnp) - Guidance, tooling, samples and open-source controls for your Microsoft 365 development
+4. delete node_modules folder、package-lock.json、yarn.lock，re-install all modules,and then gulp serve,run successfully.

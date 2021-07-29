@@ -17,7 +17,9 @@
     "antd": "^4.16.9",
     "office-ui-fabric-react": "7.156.0",
     "react": "16.9.0",
-    "react-dom": "16.9.0"
+    "react-dom": "16.9.0",
+    "tslint-microsoft-contrib": "^6.2.0",
+    "typescript": "^4.3.5"
   },
   "devDependencies": {
     "@microsoft/rush-stack-compiler-3.7": "0.2.3",
