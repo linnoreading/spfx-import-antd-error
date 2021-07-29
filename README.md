@@ -1,10 +1,9 @@
 # spfx-import-antd-error
 
 ### summary
-2021.7.29创建的spfx项目，import antd报错：TS1005: ';' 
-expected.
+2021.7.29创建的spfx项目，import antd报错：TS1005: ';' expected.
 
-此项目仅用于antd提交错误 [antd issue](https://github.com/ant-design/ant-design/issues/31573)，当前项目typescript版本还是3.7.7,未更新。
+此项目仅用于antd提交错误 [antd issue](https://github.com/ant-design/ant-design/issues/31573)，当前项目typescript版本还是3.7.7,未更新，可以重现问题。
 
 ### 原因
 spfx v1.12.1默认typescript版本为3.7.7
